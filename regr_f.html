@@ -9,6 +9,7 @@
         role="tab"
         aria-selected="true"
         aria-controls="fd-rf-panel-scheme"
+        tabindex="0"
         data-fd-rf-tab="scheme"
       >
         Как работает
@@ -20,9 +21,10 @@
         role="tab"
         aria-selected="false"
         aria-controls="fd-rf-panel-notes"
+        tabindex="-1"
         data-fd-rf-tab="notes"
       >
-        Что важно
+        Когда использовать
       </button>
     </div>
   </div>
@@ -142,7 +144,6 @@
         </div>
       </div>
 
-
       <!-- Покупатель → Фактор -->
       <div class="fd-rf-payment-route">
 
@@ -199,7 +200,6 @@
 
     </div>
 
-
     <!-- Комментарий -->
     <div class="fd-rf-key-note">
 
@@ -226,8 +226,7 @@
 
   </div>
 
-
-  <!-- Вкладка: Что важно -->
+  <!-- Вкладка: Когда использовать -->
   <div
     class="fd-rf-panel"
     id="fd-rf-panel-notes"
@@ -238,26 +237,24 @@
 
     <div class="fd-rf-notes-grid">
 
+      <!-- Когда использовать — без повторного заголовка -->
       <div class="fd-rf-note-card">
-
-        <div class="fd-rf-note-number">1</div>
-
-        <h3 class="fd-rf-note-title">
-          Когда использовать
-        </h3>
-
         <p class="fd-rf-note-text">
           Есть надежные покупатели и длинная отсрочка платежа, а компании
           нужно быстрее вернуть деньги в оборот. Инструмент подойдет, если
           поставщик готов оставить риск неплатежа покупателя на себе
         </p>
-
       </div>
 
+      <!-- Плюс -->
+      <div class="fd-rf-note-card fd-rf-note-card--with-sign">
 
-      <div class="fd-rf-note-card">
-
-        <div class="fd-rf-note-number">2</div>
+        <div
+          class="fd-rf-note-sign fd-rf-note-sign--plus"
+          aria-hidden="true"
+        >
+          +
+        </div>
 
         <h3 class="fd-rf-note-title">
           В чем преимущество
@@ -271,10 +268,17 @@
 
       </div>
 
+      <!-- Минус -->
+      <div
+        class="fd-rf-note-card fd-rf-note-card--with-sign fd-rf-note-card--warning"
+      >
 
-      <div class="fd-rf-note-card fd-rf-note-card--warning">
-
-        <div class="fd-rf-note-number">3</div>
+        <div
+          class="fd-rf-note-sign fd-rf-note-sign--minus"
+          aria-hidden="true"
+        >
+          −
+        </div>
 
         <h3 class="fd-rf-note-title">
           Где подвох
@@ -767,7 +771,7 @@
   }
 
 
-  /* Вкладка "Что важно" */
+  /* Вторая вкладка */
 
   .fd-rf-widget .fd-rf-notes-grid {
     display: grid;
@@ -779,12 +783,17 @@
   .fd-rf-widget .fd-rf-note-card {
     position: relative;
 
-    padding: 14px 22px 14px 62px;
+    padding: 14px 22px;
 
     border: 1px solid var(--fd-rf-middle);
     border-radius: 16px;
 
     background: var(--fd-rf-light);
+  }
+
+
+  .fd-rf-widget .fd-rf-note-card--with-sign {
+    padding-left: 62px;
   }
 
 
@@ -795,7 +804,9 @@
   }
 
 
-  .fd-rf-widget .fd-rf-note-number {
+  /* Кружки + и − */
+
+  .fd-rf-widget .fd-rf-note-sign {
     position: absolute;
 
     top: 14px;
@@ -804,18 +815,28 @@
     width: 28px;
     height: 28px;
 
-    border-radius: 50%;
-
     display: flex;
     align-items: center;
     justify-content: center;
 
+    border-radius: 50%;
+
     background: var(--fd-rf-orange);
     color: var(--fd-rf-white);
 
-    font-size: 15px;
-    line-height: 1;
+    font-size: 20px;
+    line-height: 28px;
     font-weight: 700;
+
+    padding: 0;
+
+    transform: translateY(1px);
+  }
+
+
+  .fd-rf-widget .fd-rf-note-sign--plus,
+  .fd-rf-widget .fd-rf-note-sign--minus {
+    transform: translateY(1px);
   }
 
 
@@ -1008,13 +1029,18 @@
 
 
     .fd-rf-widget .fd-rf-note-card {
-      padding: 54px 18px 18px;
+      padding: 14px 18px;
     }
 
 
-    .fd-rf-widget .fd-rf-note-number {
-      top: 16px;
-      left: 18px;
+    .fd-rf-widget .fd-rf-note-card--with-sign {
+      padding-left: 56px;
+    }
+
+
+    .fd-rf-widget .fd-rf-note-sign {
+      top: 14px;
+      left: 17px;
     }
 
   }
@@ -1063,10 +1089,6 @@
         widget.querySelector('[data-fd-rf-panel="scheme"]');
 
 
-      /*
-        Первая вкладка — эталон.
-        Вторая получает такую же высоту.
-      */
       function equalizePanelHeights() {
 
         if (!schemePanel) {
